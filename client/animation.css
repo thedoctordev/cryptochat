@@ -1,0 +1,33 @@
+.open-menu li {
+    animation: menu-open .1s linear;
+}
+
+.close-menu li {
+    animation: menu-close .1s linear;
+}
+
+@keyframes menu-open {
+    from {
+        font-size: 0px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+    to {
+        font-size: 14px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+}
+
+@keyframes menu-close {
+    from {
+        font-size: 14px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    to {
+        font-size: 0px;
+        margin-top: -10px;
+        margin-bottom: -10px;
+    }
+}

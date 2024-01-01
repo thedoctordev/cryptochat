@@ -1,0 +1,156 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--background);
+    font-family: var(--font);
+    color: var(--secondary-text);
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding: 5px;
+    background: var(--tertiary-color);
+    font-size: 14px;
+    z-index: 1;
+}
+header h1 {
+    color: var(--primary-text);
+}
+
+header #options {
+    display: none;
+    position: fixed;
+    right: 10px;
+    top: 50px;
+    border-radius: 3px;
+    background: var(--primary-color);
+    z-index: 1;
+}
+
+header #options li {
+    margin: 10px;
+    list-style: none;
+}
+
+main {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 60px;
+    bottom: 60px;
+    overflow-y: auto;
+    z-index: 0;
+}
+
+main .sent {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    position: relative;
+}
+
+main .sent span {
+    margin: 3px 20px;
+    padding: 10px;
+    background: var(--secondary-color);
+    border-radius: 10px;
+    max-width: 75%;
+    box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+main .received {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    position: relative;
+}
+
+main .received span {
+    margin: 3px 20px;
+    padding: 10px;
+    background: var(--primary-color);
+    border-radius: 10px;
+    max-width: 75%;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+main .received + .sent span,main div:first-child[class="sent"] span{
+    border-top-right-radius: 0px;
+    margin-top: 17px;
+}
+
+main .received + .sent span::before, main div:first-child[class="sent"] span::before {
+    content: " ";
+    position: absolute;
+    top: 17px;
+    right: 8px;
+    border-top: 20px solid var(--secondary-color);
+    border-right: 12px solid transparent;
+}
+
+main .sent + .received span,main div:first-child[class="received"] span{
+    border-top-left-radius: 0px;
+    margin-top: 17px;
+}
+
+main .sent + .received span::before, main div:first-child[class="received"] span::before {
+    content: " ";
+    position: absolute;
+    top: 17px;
+    left: 8px;
+    border-top: 20px solid var(--primary-color);
+    border-left: 12px solid transparent;
+}
+
+#actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    padding: 5px;
+    background: transparent;
+    z-index: 1;
+}
+
+#actions input[type="text"] {
+    width: calc(100% - 65px);
+    height: 40px;
+    padding: 0px 10px;
+    border: none;
+    border-radius: 20px;
+    background: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 1px gray;
+}
+
+#actions input[type="submit"] {
+    width: 40px;
+    height: 40px;
+    background-color: var(--highlight-color);
+    background-image: url(../icons/send.svg);
+    background-position: center;
+    background-size: 25px;
+    background-repeat: no-repeat;
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 0 1px gray;
+}
