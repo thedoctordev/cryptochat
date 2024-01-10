@@ -8,8 +8,8 @@
 <body>
     <input type="text" name="key" id="key" placeholder="Chave">
     <input type="text" name="message" id="message" placeholder="Mensagem....">
-    <button onclick="encrypt()">Ciptografar</button>
-    <button onclick="decrypt()">Descriptografar</button>
+    <button onclick="encrypt(message.value, publicKey[1], publicKey[0])">Ciptografar</button>
+    <button onclick="decrypt(document.querySelector('#screen span').innerText.split(' '), privateKey[1], privateKey[0])">Descriptografar</button>
     <button onclick="keyGenerate()">Gerar chaves</button>
     <div id="screen">Resultado: <span></span></div>
     <div id="keys">Public key: <span id="public"></span><br>Private key: <span id="private"></span></div>
@@ -72,7 +72,11 @@
                 e = Math.round(Math.random() * phi);
             } while (mdc(phi, e) !== 1);
 
-            d = modInverse(e, phi);
+            do {
+                d = Math.round(Math.random() * phi);
+            } while ((d*e-1) % phi != 0);
+
+            // d = modInverse(e, phi);
 
             publicKey = [n, e];
             privateKey = [d, n];
@@ -80,7 +84,7 @@
             document.querySelector("#keys #public").innerHTML = publicKey[0] + " " + publicKey[1];
             document.querySelector("#keys #private").innerHTML = privateKey[0] + " " + privateKey[1];
         }
-
+/*
         function modInverse(a, m) {
             let m0 = m;
             let y = 0;
@@ -104,7 +108,7 @@
 
             return x;
         }
-
+*/
         function encrypt(message, e, n) {
             let encrypted = [];
 
@@ -114,6 +118,10 @@
                 encrypted.push(encryptedCode);
             }
 
+            for (let i = 0; i < encrypted.length; i++) {
+                const element = encrypted[i];
+                document.querySelector("#screen span").innerHTML += element + " ";
+            }
             return encrypted;
         }
 
@@ -126,6 +134,7 @@
                 decrypted.push(char);
             }
 
+            document.querySelector("#screen span").innerText = decrypted.join('');
             return decrypted.join('');
         }
 

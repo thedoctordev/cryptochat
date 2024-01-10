@@ -1,0 +1,16 @@
+A Criptografia RSA ...
+
+1. GERAÇÃO DE CHAVES:
+  - Escolha dois números primos grandes e distintos, p e q.
+  - Calcule o produto n = p * q, que será usado como o módulo para as chaves.
+  - Calcule a função totiente de Euler de n, φ(n) = (p - 1) * (q - 1).
+  - Escolha um número inteiro e primo relativo a φ(n), chamado de e, para ser a chave pública. { 1 < e < φ(n) ∧ mdc(e, φ(n)) = 1 }
+  - Calcule o inverso multiplicativo de e módulo φ(n), chamado de d, para ser a chave privada. { de ≡ 1 mod(φ(n)) }.
+
+2. CRIPTOGRAFIA:
+  - Converta a mensagem em um número inteiro m, onde 0 < m < n.
+  - Calcule o valor criptografado c = m^e mod n.
+
+3. DESCRIPTOGRAFIA:
+  - Calcule o valor descriptografado m = c^d mod n.
+  - Converta a mensagem em caracteres.
