@@ -1,0 +1,157 @@
+*{
+    margin: 0;
+    padding:0;
+}
+
+body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: start;
+    justify-content: space-around;
+    background: var(--background);
+    background: var(--background);
+    font-family: var(--font);
+    color: var(--secondary-text);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 98%;
+    padding: 1%;
+    margin-bottom: 1%;
+    background: var(--tertiary-color);
+    color: var(--primary-text);
+}
+
+header #notifications span{
+    padding: 8px;
+    cursor: pointer;
+}
+
+header #notifications span::before {
+    content: ' ';
+    display: block;
+    float: right;
+    background: var(--highlight-color);
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    margin-left: -10px;
+    margin-top: -2px;
+}
+
+main {
+    width: 60%;
+    display: flex;
+    align-items: start;
+    justify-content: space-evenly;
+}
+
+main section {
+    width: 40%;
+}
+
+main section table {
+    width: 100%;
+}
+
+
+main section table caption {
+    font-size: 20pt;
+    font-weight: bold;
+    margin: 10px;
+}
+
+main #users table tr td:first-child {
+    width: 25px;
+    background: var(--highlight-color);
+    transition: all 0.3s;
+}
+
+main #users table tr td button {
+    width: 90%;
+    height: 90%;
+    background-color: transparent;
+    background-image: url(../icons/forum.svg);
+    background-size: 100%;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+}
+
+main section table td {
+    text-align: center;
+    border: 1px solid var(--secondary-text);
+    border-radius:20px;
+    padding: 2px;
+    height: 25px;
+}
+
+aside {
+    width: 300px;
+    text-align: center;
+}
+
+#chat {
+    width: 300px;
+    height: 550px;
+    border-radius: 20px;
+    box-shadow: 0 0 5px var(--tertiary-color);
+}
+
+#close_frame {
+    display: none;
+}
+
+a {
+    color: var(--highlight-color);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+td:first-child:hover {
+    transform: scale(1.1);
+    transition: all 0.3s;
+}
+
+@media (max-width: 600px) {
+    main {
+        width: 100%;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    main section {
+        width: 70%;
+        margin: 20px 0;
+    }
+    
+    main section table {
+        width: 100%;
+    }
+
+    aside {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        display: block;
+    }
+
+    #chat {
+        width: 100%;
+        height: 100%;
+    }
+
+    #close_frame {
+        width: 30px;
+        height: 30px;
+        position: fixed;
+        top: 15px;
+        left: 5px;
+        z-index: 999;
+    }
+}

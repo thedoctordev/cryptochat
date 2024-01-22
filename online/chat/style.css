@@ -43,6 +43,7 @@ header #options {
 }
 
 header #options li {
+    cursor: pointer;
     margin: 10px;
     list-style: none;
 }
@@ -52,7 +53,7 @@ main {
     left: 0;
     right: 0;
     top: 60px;
-    bottom: 60px;
+    padding-bottom: 60px;
     overflow-y: auto;
     z-index: 0;
 }
@@ -64,13 +65,19 @@ main .sent {
     position: relative;
 }
 
-main .sent span {
+main .sent .block {
     margin: 3px 20px;
     padding: 10px;
     background: var(--secondary-color);
     border-radius: 10px;
     max-width: 75%;
     box-shadow: -1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+main .sent .user {
+    font-size: small;
+    color: rgb(171, 117, 224);
+    float: right;
 }
 
 main .received {
@@ -80,7 +87,7 @@ main .received {
     position: relative;
 }
 
-main .received span {
+main .received .block {
     margin: 3px 20px;
     padding: 10px;
     background: var(--primary-color);
@@ -89,12 +96,18 @@ main .received span {
     box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-main .received + .sent span,main div:first-child[class="sent"] span{
+main .received .user {
+    font-size: small;
+    color: rgb(75, 161, 75);
+    float: left;
+}
+
+main .received + .sent .block,main div:first-child[class="sent"] .block{
     border-top-right-radius: 0px;
     margin-top: 17px;
 }
 
-main .received + .sent span::before, main div:first-child[class="sent"] span::before {
+main .received + .sent .block::before, main div:first-child[class="sent"] .block::before {
     content: " ";
     position: absolute;
     top: 17px;
@@ -103,12 +116,12 @@ main .received + .sent span::before, main div:first-child[class="sent"] span::be
     border-right: 12px solid transparent;
 }
 
-main .sent + .received span,main div:first-child[class="received"] span{
+main .sent + .received .block,main div:first-child[class="received"] .block{
     border-top-left-radius: 0px;
     margin-top: 17px;
 }
 
-main .sent + .received span::before, main div:first-child[class="received"] span::before {
+main .sent + .received .block::before, main div:first-child[class="received"] .block::before {
     content: " ";
     position: absolute;
     top: 17px;
@@ -140,13 +153,14 @@ main .sent + .received span::before, main div:first-child[class="received"] span
     background: var(--primary-color);
     outline: none;
     box-shadow: 0 0 1px gray;
+    color: var(--secondary-text);
 }
 
 #actions input[type="submit"] {
     width: 40px;
     height: 40px;
     background-color: var(--highlight-color);
-    background-image: url(../icons/send.svg);
+    background-image: url(../../icons/send.svg);
     background-position: center;
     background-size: 25px;
     background-repeat: no-repeat;

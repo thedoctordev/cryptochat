@@ -31,3 +31,18 @@
         margin-bottom: -10px;
     }
 }
+
+.sent, .received {
+    animation: message .5s linear;
+}
+
+@keyframes message {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
