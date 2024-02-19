@@ -311,10 +311,41 @@ void mdcEuclides(){
 // =============================================================================================
 //  Esta função encontra uma combinação linear
 // =============================================================================================
+int euclides(int a, int b, int *s, int *t) {
+    
+    if (a == 0) {
+        *s = 0;
+        *t = 1;
+        return b;
+    }
 
+    int s1, t1;
+    int mdc = euclides(b % a, a, &s1, &t1);
+
+   
+    *s = t1 - (b / a) * s1;
+    *t = s1;
+
+    return mdc;
+}
 
 void combinacaoLinear(){
-    
+    int a, b;
+    limparTela();
+    printf("Encontre uma combinação linear.\n");
+    printf("Digite um numero inteiro: ");
+    scanf("%d", &a);
+    printf("Digite outro numero inteiro: ");
+    scanf("%d", &b);
+
+    int s, t;
+    int mdc = euclides(a, b, &s, &t);
+
+    printf("mdc(%d, %d) = %d\n", a, b, mdc);
+    printf("Coeficientes s e t da combinacao linear: s = %d, t = %d\n", s, t);
+
+    pause();
+    main();
 }
 
 // =============================================================================================
