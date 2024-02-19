@@ -192,7 +192,71 @@ void decomporEmPrimos()
 // =============================================================================================
 //  Esta função calcula o MMC e o MDC de dois inteiros, baseando-se em seus fatores primos
 // =============================================================================================
-void MMCeMDC(){}
+
+int mmc(int numero_1, int numero_2, int resposta, int divisor)
+{
+        
+    if (numero_1 == 1 && numero_2 == 1) return resposta;
+    else 
+    {
+        if ((numero_1 % divisor) == 0 || (numero_2 % divisor) == 0)
+        {
+            resposta = resposta * divisor;
+            if ((numero_1 % divisor) == 0) numero_1 = numero_1 / divisor;
+            if ((numero_2 % divisor) == 0) numero_2 = numero_2 / divisor;
+            return mmc(numero_1, numero_2, resposta, 2);
+        }
+        else return mmc(numero_1, numero_2, resposta, divisor + 1);
+
+    }
+}
+
+int mdc(int valor1, int valor2, int resposta2, int divisor)
+{
+    if (valor1 == 1 && valor2 == 1) return resposta2;
+    else
+    {
+        if ((valor1 % divisor) == 0 && (valor2 % divisor) == 0)
+        {
+            resposta2 = resposta2 * divisor;
+            valor1 = valor1 / divisor;
+            valor2 = valor2 / divisor;
+            return mdc(valor1, valor2, resposta2, 2);
+        }
+        else
+        {
+            if (divisor > valor2) return resposta2;
+            else return mdc(valor1, valor2, resposta2, divisor + 1);
+        }
+    }
+}
+
+void MMCeMDC(){
+    int numero1, numero2, resultadommc, resultadomdc;
+    limparTela();
+    printf("Encontre o MDC e o MMC de dois inteiros.\n");
+    printf("Digite um numero inteiro: ");
+    scanf("%d", &numero1);
+    printf("Digite outro numero inteiro: ");
+    scanf("%d", &numero2);
+    
+    if (numero1 >= numero2)
+    {
+        resultadomdc = mdc(numero1, numero2, 1, 2);
+        resultadommc = mmc(numero1, numero2, 1, 2);
+    }
+    else
+    {
+        resultadomdc = mdc(numero2, numero1, 1, 2);
+        resultadommc = mmc(numero2, numero1, 1, 2);
+    }
+    
+    printf("O MDC entre %d e %d eh %d\n", numero1, numero2, resultadomdc);
+    printf("O MMC entre %d e %d eh %d\n", numero1, numero2, resultadommc);
+
+    pause();
+    main();
+}
 
 // =============================================================================================
 //  Esta função usa o algoritimo de Euclides para determinar o MDC de dois inteiros
@@ -229,7 +293,7 @@ void mdc_euclides(int valor_a, int valor_b, int valor_inicial_a, int valor_inici
     main();
 }
 
-void mdc(){
+void mdcEuclides(){
     int a, b, inicial_a, inicial_b;
     limparTela();
     printf("Encontre o MDC de dois inteiros.\n");
@@ -247,7 +311,11 @@ void mdc(){
 // =============================================================================================
 //  Esta função encontra uma combinação linear
 // =============================================================================================
-void combinacaoLinear(){}
+
+
+void combinacaoLinear(){
+    
+}
 
 // =============================================================================================
 //  Esta função calcula o inverso modular
@@ -294,7 +362,25 @@ void inversoModular(){
 // =============================================================================================
 //  Esta função calcula uma congruência linear
 // =============================================================================================
-void congruenciaLinear(){}
+void congruenciaLinear(){
+    int a, b, m, inverse, x;
+    limparTela();
+    printf("Encontre o solucao de uma congruencia linear.\n");
+    printf("Digite o valor de a: ");
+    scanf("%d", &a);
+    printf("Digite o valor de b: ");
+    scanf("%d", &b);
+    printf("Digite o valor de m: ");
+    scanf("%d", &m);
+    inverse = inverso(a, m);
+    x = (b * inverse) % m;
+    
+    if (inverse == 0) printf("Essa congruencia nao tem solucao.\n");
+    else printf("A solucao para essa congruencia linear eh %d\n", x);
+
+    pause();
+    main();
+}
 
 // =============================================================================================
 //  Esta função faz uso do Teorema Chinês do Resto
@@ -323,6 +409,7 @@ int main(){
     int select;
     scanf("%d", &select);
 
+    // Direciona o programa para uma função de acordo com a escolha do usuário
     switch (select)
     {
     case 1:
@@ -342,7 +429,7 @@ int main(){
         break;
 
     case 5:
-        mdc();
+        mdcEuclides();
         break;
 
     case 6:
