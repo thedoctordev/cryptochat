@@ -460,44 +460,80 @@ int MDCdeNInteiros(int n, int arr[])
 
     for (int i = 1; i <= arr[0]; i++)
     {
+        d = 1;
         for (int j = 0; j < n; j++)
         {
-            if (arr[j] % i != 0) {
-                d = 0;
-            }
-            else d = i;
+            if (arr[j] % i == 0) d++;
         }
         
-        if (d != 0) md = d;
+        if (d == n) md = d;
     }
     
     return md;
 }
 
-void teoremaChines(){
-    int r1, r2, r3, m1, m2, m3, M, M1, M2, M3, s1, s2, s3, x;
+void ler(int n, int arr[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d", &arr[i]);
+    }
+    
+}
+
+void teoremaChinesComNConruencias(int n){
+    int M, x;
+    int restos[n];
+    int modulos[n];
+    int Ms[n];
+    int solucoes[n];
     limparTela();
-    printf("Resolva um sistema com tres congruencias lineares.\n");
-    printf("Digite os tres restos (separados por espaco): ");
-    scanf("%d %d %d", &r1, &r2, &r3);
-    printf("Agora digite os tres modulos (separados por espaco): ");
-    scanf("%d %d %d", &m1, &m2, &m3);
-    M = m1 * m2 * m3;
-    M1 = M / m1;
-    M2 = M / m2;
-    M3 = M / m3;
-    s1 = inverso(M1, m1);
-    s2 = inverso(M2, m2);
-    s3 = inverso(M3, m3);
-    x = (M1 * s1 * r1 + M2 * s2 * r2 + M3 * s3 * r3) % M;
-    int mdcMs[3];
-    mdcMs[0] = m1;
-    mdcMs[1] = m2;
-    mdcMs[2] = m3;
-    if (MDCdeNInteiros(3, mdcMs) != 1) printf("\nNão é posível resolver pelo Teorema Chinês do resto, pois os módulos não são coprimos.\n");
-    else printf("\nA solução do sistema é: %d\n", x);
+    printf("Resolva um sistema com %d congruencias lineares.\n", n);
+    printf("\nOBSERVAÇÃO: Essa função funciona apenas com congruências \nem que o coeficiente 'a' é igual a 1.\n");
+    printf("\nDigite os %d restos (separados por espaco): ", n);
+    ler(n, restos);
+    printf("Agora digite os %d modulos (separados por espaco): ", n);
+    ler(n, modulos);
+
+    if (MDCdeNInteiros(n, modulos) != 1) printf("\nNão é posível resolver pelo Teorema Chinês do resto, pois os módulos não são coprimos.\n");
+    else
+    {
+        M = 1;
+        for (int i = 0; i < n; i++)
+        {
+            M *= modulos[i];
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            Ms[i] = M / modulos[i];
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            solucoes[i] = inverso(Ms[i], modulos[i]);
+        }
+        
+        x = 0;
+        for (int i = 0; i < n; i++)
+        {
+            x += Ms[i] * solucoes[i] * restos[i];
+        }
+        x %= M;
+
+        printf("\nA solução do sistema é: %d\n", x);
+    }
 
     pause();
+}
+
+void teoremaChinesDoResto()
+{
+    int n;
+    limparTela();
+    printf("Quantas congruências exitem no seu sistema? ");
+    scanf("%d", &n);
+    teoremaChinesComNConruencias(n);
 }
 
 // =============================================================================================
@@ -560,11 +596,11 @@ void inicio()
         break;
 
     case 9:
-        teoremaChines();
+        teoremaChinesComNConruencias(3);
         break;
 
     case 10:
-        teoremaChines();
+        teoremaChinesDoResto();
         break;
     
     case 11:
@@ -584,11 +620,16 @@ void inicio()
 // =============================================================================================
 int main(){
     // Para padronizar a cadeia de caracteres  utilizada
-    setlocale(LC_ALL, "Portuguese");
+    #ifdef _WIN32
+        SetConsoleOutputCP(CP_UTF8);
+    #else
+        setlocale(LC_ALL, "Portuguese");
+    #endif
+
     // Limpa a tela do terminal
     limparTela();
-    printf("Esse programa foi desenvolvido pelos alunos de Ciencia/Engenharia \n");
-    printf("da computacao do primeiro periodo no semetre 2023.2 da \n");
+    printf("Esse programa foi desenvolvido pelos alunos de Ciência/Engenharia \n");
+    printf("da computação do primeiro período no semetre 2023.2 da \n");
     printf("Universidade Federal de Alagoas(UFAL), para a disciplina de \n");
     printf("Matemática Discreta.\n");
     printf("\n000000000000000000000000000000000000000000000000000000000000000000\n");
@@ -601,8 +642,8 @@ int main(){
     printf("000             000    0000000    0000000000    000    00000000000\n");
     printf("00000         00000    000000    000000000000    00             00\n");
     printf("000000000000000000000000000000000000000000000000000000000000000000\n");
-    printf("\nEsse programa e composto por 10 funcionalidades baseadas \n");
-    printf("em assuntos relacionados a teoria dos numeros.\n");
+    printf("\nEsse programa é composto por 10 funcionalidades baseadas \n");
+    printf("em assuntos relacionados a teoria dos números.\n");
     pause();
 
     return 0;
