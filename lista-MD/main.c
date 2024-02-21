@@ -84,23 +84,15 @@ void menu(char *titulo, char *op1, char *op2, char *op3, char *op4, char *op5,
 // =============================================================================================
 //  Esta função verifica se um número é primo
 // =============================================================================================
-int primo(int numero, int divisor){
+int primo(int numero){
+    int i;
 
-    int resto;
+    for(i = 2; i * i <= numero; i++){
 
-    resto = numero % divisor;
-
-    if (numero <= 1){
-        return 0;
+        if ((numero % i) == 0) return 0; //Se for verdade nao eh primo
+            
     }
-    else if (resto == 0 && divisor != 1 && divisor != numero){
-        return 0;
-    }
-    if (divisor < sqrt(numero)){
-        return primo(numero, divisor + 1);
-    }
-
-    return 1;
+    return 1; // passou por todos os testes e nao deu retorno, logo eh primo
 }
 
 // =============================================================================================
@@ -108,16 +100,20 @@ int primo(int numero, int divisor){
 // =============================================================================================
 void ehPrimo()
 {
-    int x, resultado;
+    int p, numero;
     limparTela();
-    printf("Descubra se um número é primo ou não.\n");
+    printf("Descubra se um número é primo.\n");
     printf("\nDigite um número: ");
-    scanf("%d", &x);
-
-    resultado = primo(x, 2);
-
-    (resultado == 1) ? printf("Esse número é primo.\n\n"): printf("Esse nuúmero não é primo.\n\n");
-
+    scanf("%d", &numero);
+    
+    if (numero <= 1) printf("\nEste número não é primo.\n"); //1 ou menor nao eh primo
+    else if (numero == 2) printf("\nEste número é primo.\n"); // 2 eh primo
+    else
+    {
+        p = primo(numero);
+        if (p == 1) printf("\nEste número é primo.\n");
+        else printf("\nEste número não é primo.\n");
+    }    
     pause();
 }
 
@@ -142,7 +138,7 @@ void listarPrimos()
             printf("\n\nEm 60 segundos, foram listados %d números primos.\n", primos);
             pause();
         }
-        else if (primo(i, 2) == 1)
+        else if (primo(i) == 1)
         {
             primos++;
             printf(" - %d", i);
@@ -481,19 +477,41 @@ void ler(int n, int arr[])
     
 }
 
+void arrumar(int n, int a[], int b[], int m[])
+{
+    for (int i = 0; i < n; i++)
+    {
+        int x = 1;
+        while (a[i] != 1)
+        {
+            if ((x * a[i]) % m[i] == 1)
+            {
+                a[i] = 1;
+                b[i] *= x;
+                if (b[i] > m[i]) b[i] %= m[i];
+            }
+            x++;
+        }
+    }
+}
+
 void teoremaChinesComNConruencias(int n){
     int M, x;
+    int coeficientes[n];
     int restos[n];
     int modulos[n];
     int Ms[n];
     int solucoes[n];
     limparTela();
     printf("Resolva um sistema com %d congruencias lineares.\n", n);
-    printf("\nOBSERVAÇÃO: Essa função funciona apenas com congruências \nem que o coeficiente 'a' é igual a 1.\n");
-    printf("\nDigite os %d restos (separados por espaco): ", n);
+    printf("\nDigite os %d valores de a (sparados por espaço): ", n);
+    ler(n, coeficientes);
+    printf("Digite os %d restos (separados por espaco): ", n);
     ler(n, restos);
     printf("Agora digite os %d modulos (separados por espaco): ", n);
     ler(n, modulos);
+
+    arrumar(n, coeficientes, restos, modulos);
 
     if (MDCdeNInteiros(n, modulos) != 1) printf("\nNão é posível resolver pelo Teorema Chinês do resto, pois os módulos não são coprimos.\n");
     else
