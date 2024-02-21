@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <time.h>
+#include <locale.h>
 
 #ifdef _WIN32
     // Caso seja compilado no Windows
@@ -12,7 +13,7 @@
 
 // A função main está definida no final do código
 int main();
-
+void inicio();
 // =============================================================================================
 //  Esta função limpa a tela do terminal
 // =============================================================================================
@@ -33,6 +34,7 @@ void pause()
 {
     printf("\nClique ENTER para continuar...");
     getchar();getchar(); // Gambiarra :)
+    inicio();
 }
 
 // =============================================================================================
@@ -41,17 +43,16 @@ void pause()
 void creditos()
 {
     limparTela();
-    printf("Obrigado por usar nosso programa :)\n");
-    printf("\nDesenvolvido por:\n");
-    printf("\tNOME\n");
-    printf("\tNOME\n");
-    printf("\tNOME\n");
-    printf("\tNOME\n");
-    printf("\tNOME\n");
-    printf("\tNOME\n");
-    printf("\tNOME\n");
+    printf("Desenvolvido por:\n");
+    printf(" - Alison Bruno Martires Soares\n");
+    printf(" - Diego Neves da Silva\n");
+    printf(" - Jayme Vinícius Esteves Pedroza Melo\n");
+    printf(" - João Gabriel Seixas Santos\n");
+    printf(" - Jose Cicero de Oliveira Rodrigues\n");
+    printf(" - Neilton Gabriel Gonçalves Luciano\n");
+    printf(" - Zilderlan Naty dos Santos\n");
+    printf("\nObrigado por usar nosso programa :)\n");
     pause();
-    main();
 }
 
 // =============================================================================================
@@ -77,7 +78,7 @@ void menu(char *titulo, char *op1, char *op2, char *op3, char *op4, char *op5,
     printf("| 11. %-60s|\n", op11);
     printf("| 12. %-60s|\n", op12);
     printf("===================================================================\n");
-    printf(">> Escolha uma das opcoes: ");
+    printf(">> Escolha uma das opções: ");
 }
 
 // =============================================================================================
@@ -109,16 +110,15 @@ void ehPrimo()
 {
     int x, resultado;
     limparTela();
-    printf("Descubra se um numero eh primo ou nao.\n");
-    printf("\nDigite um numero: ");
+    printf("Descubra se um número é primo ou não.\n");
+    printf("\nDigite um número: ");
     scanf("%d", &x);
 
     resultado = primo(x, 2);
 
-    (resultado == 1) ? printf("Esse numero eh primo.\n\n"): printf("Esse numero nao eh primo.\n\n");
+    (resultado == 1) ? printf("Esse número é primo.\n\n"): printf("Esse nuúmero não é primo.\n\n");
 
     pause();
-    main();
 }
 
 // =============================================================================================
@@ -139,9 +139,8 @@ void listarPrimos()
 
         if (difftime(atual, inicio) == 60)
         {
-            printf("\n\nEm 60 segundos, foram listados %d primos.\n", primos);
+            printf("\n\nEm 60 segundos, foram listados %d números primos.\n", primos);
             pause();
-            main();
         }
         else if (primo(i, 2) == 1)
         {
@@ -174,7 +173,6 @@ void fatorar(int numero, int divisor){
     else{
         printf("\b\b.\n");
         pause();
-        main();
     }
 }
 
@@ -182,10 +180,10 @@ void decomporEmPrimos()
 {
     limparTela();
     int n;    
-    printf("Decomponha um numero em seus fatores primos.\n");
-    printf("Digite um numero: ");
+    printf("Decomponha um número em seus fatores primos.\n");
+    printf("Digite um número: ");
     scanf("%d", &n);
-    printf("Os fatores primos desse numero sao: ");
+    printf("Os fatores primos desse número são: ");
     fatorar(n, 2);
 }
 
@@ -235,9 +233,9 @@ void MMCeMDC(){
     int numero1, numero2, resultadommc, resultadomdc;
     limparTela();
     printf("Encontre o MDC e o MMC de dois inteiros.\n");
-    printf("Digite um numero inteiro: ");
+    printf("Digite um número inteiro: ");
     scanf("%d", &numero1);
-    printf("Digite outro numero inteiro: ");
+    printf("Digite outro número inteiro: ");
     scanf("%d", &numero2);
     
     if (numero1 >= numero2)
@@ -251,11 +249,10 @@ void MMCeMDC(){
         resultadommc = mmc(numero2, numero1, 1, 2);
     }
     
-    printf("O MDC entre %d e %d eh %d\n", numero1, numero2, resultadomdc);
-    printf("O MMC entre %d e %d eh %d\n", numero1, numero2, resultadommc);
+    printf("O MDC entre %d e %d é %d\n", numero1, numero2, resultadomdc);
+    printf("O MMC entre %d e %d é %d\n", numero1, numero2, resultadommc);
 
     pause();
-    main();
 }
 
 // =============================================================================================
@@ -265,17 +262,17 @@ void mdc_euclides(int valor_a, int valor_b, int valor_inicial_a, int valor_inici
 
 
     if (valor_a == valor_b){
-        printf("\nO mdc entre %d e %d eh %d\n", valor_inicial_a, valor_inicial_b, valor_a);
+        printf("\nO mdc entre %d e %d é %d\n", valor_inicial_a, valor_inicial_b, valor_a);
     }
     else if (valor_a > valor_b){
         if (valor_b > 1){
             return mdc_euclides(valor_b, valor_a % valor_b, valor_inicial_a, valor_inicial_b);
         }
         else if (valor_b == 1){
-            printf("\nO mdc entre %d e %d eh 1\n", valor_inicial_a, valor_inicial_b);
+            printf("\nO mdc entre %d e %d é 1\n", valor_inicial_a, valor_inicial_b);
         }
         else if (valor_b == 0){
-            printf("\nO mdc entre %d e %d eh %d\n", valor_inicial_a, valor_inicial_b, valor_a);
+            printf("\nO mdc entre %d e %d é %d\n", valor_inicial_a, valor_inicial_b, valor_a);
         }
         else{
             printf("\ntem coisa errada\n");
@@ -290,16 +287,15 @@ void mdc_euclides(int valor_a, int valor_b, int valor_inicial_a, int valor_inici
     }
     
     pause();
-    main();
 }
 
 void mdcEuclides(){
     int a, b, inicial_a, inicial_b;
     limparTela();
     printf("Encontre o MDC de dois inteiros.\n");
-    printf("Digite um numero inteiro: ");
+    printf("Digite um número inteiro: ");
     scanf("%d", &a);
-    printf("Digite outro numero inteiro: ");
+    printf("Digite outro número inteiro: ");
     scanf("%d", &b);
 
     inicial_a = a;
@@ -333,19 +329,18 @@ void combinacaoLinear(){
     int a, b;
     limparTela();
     printf("Encontre uma combinação linear.\n");
-    printf("Digite um numero inteiro: ");
+    printf("Digite um número inteiro: ");
     scanf("%d", &a);
-    printf("Digite outro numero inteiro: ");
+    printf("Digite outro número inteiro: ");
     scanf("%d", &b);
 
     int s, t;
     int mdc = euclides(a, b, &s, &t);
 
     printf("mdc(%d, %d) = %d\n", a, b, mdc);
-    printf("Coeficientes s e t da combinacao linear: s = %d, t = %d\n", s, t);
+    printf("Coeficientes s e t da combinação linear: s = %d, t = %d\n", s, t);
 
     pause();
-    main();
 }
 
 // =============================================================================================
@@ -379,24 +374,33 @@ void inversoModular(){
 
     if (resultado != 0)
     {
-        printf("\nO invrso de %d mod %d eh: %d\n", a, m, resultado);
+        printf("\nO invrso de %d mod %d é: %d\n", a, m, resultado);
     }
     else
     {
-        printf("Nao existe um inverso, pois mdc(%d,%d) eh diferente de 1.\n", a, m);
+        printf("Nao existe um inverso, pois mdc(%d,%d) é diferente de 1.\n", a, m);
     }
 
     pause();
-    main();
 }
 
 // =============================================================================================
 //  Esta função calcula uma congruência linear
 // =============================================================================================
+void multiplasSolucoes(int d, int x, int m)
+{
+    for (int i = 1; i <= d; i++)
+    {
+        printf("x%d = %d\n", i, x);
+        x += m;
+    }
+    
+}
+
 void congruenciaLinear(){
-    int a, b, m, inverse, x;
+    int a, b, m, inverse, x, d;
     limparTela();
-    printf("Encontre o solucao de uma congruencia linear.\n");
+    printf("Encontre o solução de uma congruência linear.\n");
     printf("Digite o valor de a: ");
     scanf("%d", &a);
     printf("Digite o valor de b: ");
@@ -404,26 +408,106 @@ void congruenciaLinear(){
     printf("Digite o valor de m: ");
     scanf("%d", &m);
     inverse = inverso(a, m);
+    d = mdc(a, m, 1, 2);
     x = (b * inverse) % m;
     
-    if (inverse == 0) printf("Essa congruencia nao tem solucao.\n");
-    else printf("A solucao para essa congruencia linear eh %d\n", x);
+    if (d == 1) printf("A solução única para essa congruência linear é %d\n", x);
+    else if (b % d == 0)
+    {
+        a /= d;
+        b /= d;
+        m /= d;
+        inverse = inverso(a, m);
+        x = (b * inverse) % m;
+        printf("Existem %d soluções para esta congruência.\n", d);
+        multiplasSolucoes(d, x, m);
+    }
+    else printf("Essa congruência não tem solução.\n");
 
     pause();
-    main();
 }
 
 // =============================================================================================
 //  Esta função faz uso do Teorema Chinês do Resto
 // =============================================================================================
-void teoremaChines(){}
+void ordenarArray(int tam, int arr[])
+{
+    int troca = 1;
+
+    while (troca)
+    {
+        troca = 0;
+
+        for (int i = 0; i < tam - 1; i++)
+        {
+            if (arr[i] > arr[i + 1])
+            {
+                troca = 1;
+                int aux = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = aux;
+            }
+        }
+    }
+    
+}
+
+int MDCdeNInteiros(int n, int arr[])
+{
+    ordenarArray(n, arr);
+    int d, md;
+    md = 1;
+
+    for (int i = 1; i <= arr[0]; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (arr[j] % i != 0) {
+                d = 0;
+            }
+            else d = i;
+        }
+        
+        if (d != 0) md = d;
+    }
+    
+    return md;
+}
+
+void teoremaChines(){
+    int r1, r2, r3, m1, m2, m3, M, M1, M2, M3, s1, s2, s3, x;
+    limparTela();
+    printf("Resolva um sistema com tres congruencias lineares.\n");
+    printf("Digite os tres restos (separados por espaco): ");
+    scanf("%d %d %d", &r1, &r2, &r3);
+    printf("Agora digite os tres modulos (separados por espaco): ");
+    scanf("%d %d %d", &m1, &m2, &m3);
+    M = m1 * m2 * m3;
+    M1 = M / m1;
+    M2 = M / m2;
+    M3 = M / m3;
+    s1 = inverso(M1, m1);
+    s2 = inverso(M2, m2);
+    s3 = inverso(M3, m3);
+    x = (M1 * s1 * r1 + M2 * s2 * r2 + M3 * s3 * r3) % M;
+    int mdcMs[3];
+    mdcMs[0] = m1;
+    mdcMs[1] = m2;
+    mdcMs[2] = m3;
+    if (MDCdeNInteiros(3, mdcMs) != 1) printf("\nNão é posível resolver pelo Teorema Chinês do resto, pois os módulos não são coprimos.\n");
+    else printf("\nA solução do sistema é: %d\n", x);
+
+    pause();
+}
 
 // =============================================================================================
 //  Esta é a função principal
 // =============================================================================================
-int main(){
+
+void inicio()
+{
     menu(
-        "MATEMATICA DISCRETA", 
+        "SELECIONE UMA OPCAO", 
         "Verificar se eh primo", 
         "Listar numeros primos", 
         "Decompor em fatores primos",
@@ -431,7 +515,7 @@ int main(){
         "MDC - Algoritmo de Euclides",
         "Encontrar Combinacao linear",
         "Encontrar o Inverso modular",
-        "Encontrar a Congruencia linear",
+        "Encontrar solucao para uma Congruencia linear",
         "Teorema Chines do resto com 3 congruencias",
         "Teorema Chines do resto com N congruencias",
         "Creditos",
@@ -489,9 +573,37 @@ int main(){
 
     default:
         limparTela();
+        printf("\nObrigado por usar nosso programa :)\n\n");
         exit(1);
         break;
     }
+}
+
+// =============================================================================================
+//  Esta é a função inicial
+// =============================================================================================
+int main(){
+    // Para padronizar a cadeia de caracteres  utilizada
+    setlocale(LC_ALL, "Portuguese");
+    // Limpa a tela do terminal
+    limparTela();
+    printf("Esse programa foi desenvolvido pelos alunos de Ciencia/Engenharia \n");
+    printf("da computacao do primeiro periodo no semetre 2023.2 da \n");
+    printf("Universidade Federal de Alagoas(UFAL), para a disciplina de \n");
+    printf("Matemática Discreta.\n");
+    printf("\n000000000000000000000000000000000000000000000000000000000000000000\n");
+    printf("00    0000000    00             0000      000000000    00000000000\n");
+    printf("00    0000000    00             000        00000000    00000000000\n");
+    printf("00    0000000    00    00000000000    00    0000000    00000000000\n");
+    printf("00    0000000    00    0000000000    0000    000000    00000000000\n");
+    printf("00    0000000    00           00    000000    00000    00000000000\n");
+    printf("00    0000000    00    00000000                0000    00000000000\n");
+    printf("000             000    0000000    0000000000    000    00000000000\n");
+    printf("00000         00000    000000    000000000000    00             00\n");
+    printf("000000000000000000000000000000000000000000000000000000000000000000\n");
+    printf("\nEsse programa e composto por 10 funcionalidades baseadas \n");
+    printf("em assuntos relacionados a teoria dos numeros.\n");
+    pause();
 
     return 0;
 }
