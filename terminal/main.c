@@ -86,7 +86,7 @@ void printArchive(char *name)
 /*=================================================================================
     Função responsável por verificar se um número é primo (caso seja, retorna 1)
 =================================================================================*/
-int isPrime(unsigned long int n) {
+int isPrime(unsigned long n) {
 		if (n <= 1) {
 				return 0;
 		}
@@ -101,8 +101,8 @@ int isPrime(unsigned long int n) {
 /*=================================================================================
  ALGORÍTIMO DE EUCLIDES - Retorna o Máximo Divisor Comum (MDC) entre os dois número
 =================================================================================*/
-int mdc(unsigned long int n1, unsigned long int n2) {
-    unsigned long int a, b, resto;
+int mdc(unsigned long n1, unsigned long n2) {
+    unsigned long a, b, resto;
     a = n1;
     b = n2;
     do {
@@ -128,11 +128,29 @@ void stringToAscii(char *text, int *ascii)
 /*=================================================================================
             Função responsável por gerar as chaves pública e privada
 =================================================================================*/
+unsigned long generateE(unsigned long phi)
+{
+    for (unsigned long i = 2; i < phi; i++)
+    {
+        if (mdc(phi, i) == 1) return i;
+    }
+    return 0;
+}
+
+unsigned long generateD(unsigned long a, unsigned long m)
+{
+    for (unsigned long i = 2; i < m; i++)
+    {
+        if((a * i) % m == 1) return i;
+    }
+    return 0;
+}
+
 void keysGenerate()
 {
     // Variáveis nescessárias
     FILE *file;
-    unsigned long int p, q, n, phi, e, d;
+    unsigned long p, q, n, phi, e, d;
     p = 0;
     q = 0;
 
@@ -142,36 +160,32 @@ void keysGenerate()
     {
         header("GERAR CHAVES PÚBLICA E PRIVADA"); // Imprime o cabeçalho
         (p == 0) ? printf("Digite um número primo: ") : printf("Este número não é primo, tente outro: ");
-        scanf("%ld", &p); // Lê um valor par 'p'
+        scanf("%lu", &p); // Lê um valor par 'p'
     } while (!isPrime(p));
     
     do // Solicita que o usuário digite um valor primo para 'q'
     {
         header("GERAR CHAVES PÚBLICA E PRIVADA"); // Imprime o cabeçalho
         (q == 0) ? printf("Digite outro número primo: ") : printf("Este número não é primo, tente outro: ");
-        scanf("%ld", &q); // Lê um valor par 'p'
+        scanf("%lu", &q); // Lê um valor par 'p'
     } while (!isPrime(q));
 
     n = p * q; // Calcula o valor de 'n'
     phi = (p - 1) * (q - 1); // Calcula o valor de φ(n) | Função totiente de Euler
 
     // Escolhe o valor aleatório para 'e' | mdc(e, φ(n)) = 1
-    do {
-        e = rand() % 5537;
-    } while (mdc(phi, e) != 1);
+    e = generateE(phi);
 
     // Escolhe o valor aleatório para 'd' | de ≡ 1 mod(φ(n))
-    do {
-        d = rand() / 10000;
-    } while ((d*e-1) % phi != 0);
+    d = generateD(e, phi);
 
     // Gera um arquivo com a chave pública
     file = fopen("public.key", "w");
-    fprintf(file, "%ld %ld", n, e);
+    fprintf(file, "%lu %lu", n, e);
     fclose(file);
     // Gera um arquivo com a chave privada
     file = fopen("private.key", "w");
-    fprintf(file, "%ld %ld", n, d);
+    fprintf(file, "%lu %lu", n, d);
     fclose(file);
 }
 
@@ -183,7 +197,7 @@ void encrypt(char input)
     FILE *file;
     int ascii[MAX_LEN];
     char message[MAX_LEN]; // Variável que guardará a mensagem a ser encriptada
-    unsigned long int n, e;
+    unsigned long n, e;
 
     if (input == 'k')
     {
@@ -205,14 +219,14 @@ void encrypt(char input)
 
     // Lê a chave pública
     file = fopen("public.key", "r"); // Abre o arquivo que contém a chave pública no modo Somente leitura
-    fscanf(file, "%ld %ld", &n, &e); // Lê os valores contidos no arquivo
+    fscanf(file, "%lu %lu", &n, &e); // Lê os valores contidos no arquivo
     fclose(file); // Fecha o aquivo
 
     stringToAscii(message, ascii); // Converte o texto para número
     
     // Escreve a mensagem encriptada em um arquivo
     file = fopen("encrypted.txt", "w"); // Abre o arquivo no modo escrita
-    for (int i = 0; i < MAX_LEN; i++)
+    for (int i = 0; i < strlen(message); i++)
     {
         mpz_t encryptedCode, base, expoent, modulus; // Cria variáveis do tipo "Inteiro de precisão multipla"
         mpz_inits(encryptedCode, base, expoent, modulus, NULL); // Inicializa as variáveis
@@ -220,7 +234,7 @@ void encrypt(char input)
         mpz_set_ui(expoent, e); // Copia o valor de 'e' para a variável 'expoent'
         mpz_set_ui(modulus, n); // Copia o valor da 'n' para a variável 'modulus'
         mpz_powm(encryptedCode, base, expoent, modulus); // Faz o cálculo da potência modular | b^e mod n
-        if (ascii[i] != 0) gmp_fprintf(file, "%Zd ", encryptedCode); // Escreve o código encriptado no arquivo
+        gmp_fprintf(file, "%Zd ", encryptedCode); // Escreve o código encriptado no arquivo
         mpz_clears(encryptedCode, base, expoent, modulus, NULL); // Elimia as variáveis para liberar memória
     }
     fclose(file); // Fecha o arquivo
@@ -234,7 +248,7 @@ void decrypt(char input)
     FILE *file;
     char message[MAX_LEN];
     char code[20];
-    unsigned long int n, d, num;
+    unsigned long n, d, num;
     int j = 0;
 
     if (input == 'k')
@@ -257,7 +271,7 @@ void decrypt(char input)
 
     // Lê a chave privada
     file = fopen("private.key", "r"); // Abre o arquivo que contém a chave privada
-    fscanf(file, "%ld %ld", &n, &d); // Lê os valores contidos no arquivo
+    fscanf(file, "%lu %lu", &n, &d); // Lê os valores contidos no arquivo
     fclose(file); // Fecha o arquivo
 
     // Escreve a mensagem decriptada em um arquivo
@@ -285,6 +299,7 @@ void decrypt(char input)
             fprintf(file, "%c", (int)num); // Escreve o caractere correspodente no arquivo
             strcpy(code, ""); // Limpa a variável 'code' para a próxima iteração
             j = 0; // Reseta o valor de 'j'
+            num = 0;
         }
     }
     fclose(file); // Fecha o arquivo
@@ -295,7 +310,12 @@ void decrypt(char input)
 int main()
 {
     int option;
-    option = menu("CRIPTOGRAFIA RSA", "Como o RSA funciona?", "Gerar chaves Pública/Privada", "Encriptar/Decriptar mensagem", "Créditos", "Encerrar programa");
+    option = menu("CRIPTOGRAFIA RSA", 
+                  "Como o RSA funciona?", 
+                  "Gerar chaves Pública/Privada", 
+                  "Encriptar/Decriptar mensagem", 
+                  "Créditos", 
+                  "Encerrar programa");
 
     switch (option)
     {
@@ -308,7 +328,12 @@ int main()
         break;
     
     case 3: // Encriptar/Decriptar mensagem
-        int new_option = menu("ENCRIPTAR/DECRIPTAR MENSAGEM", "[ENCRIPTAR] Digitar mensagem", "[ENCRIPTAR] Ler arquivo", "[DECRIPTAR] Digitar mensagem", "[DECRIPTAR] Ler arquivo", "Voltar\n|\n| Digite qualquer outro caractere para encerrar o programa.");
+        int new_option = menu("ENCRIPTAR/DECRIPTAR MENSAGEM", 
+                              "[ENCRIPTAR] Digitar mensagem (Em desevolvimento...)", 
+                              "[ENCRIPTAR] Ler arquivo", 
+                              "[DECRIPTAR] Digitar mensagem (Em desevolvimento...)", 
+                              "[DECRIPTAR] Ler arquivo", 
+                              "Voltar\n|\n| Digite qualquer outro caractere para encerrar o programa.");
         
         switch (new_option)
         {
