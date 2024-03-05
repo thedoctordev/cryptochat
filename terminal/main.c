@@ -5,19 +5,36 @@
  * 
  * ! Os números primos para gerar chaves devem ser de dois ou mais dígitos
  * TODO: Verificar se os números digitados são primos (ADICIONAR UMA FUNÇÃO)
- * TODO: Adicionar a verificação do sistema para usar a biblioteca <windows.h>
- * TODO: Adicionar o suporte a acentuação
+ * //TODO: Adicionar a verificação do sistema para usar a biblioteca <windows.h>
+ * TODO: Adicionar o suporte a acentuação //! De boa por enquanto
  * TODO: Manter o usuário no programa (ADICIONAR FUNÇÃO)
  * TODO: Adicionar as opções "Sobre" e "Creditos"
 */
 
 // Bibliotecas necessárias
 #include <stdio.h> // Entrada e saída padrão
-#include <stdlib.h> // Algumas funcionalidades úteis
 #include <string.h> // Manipulação de strings ("Textos")
+#include <locale.h>
+#ifdef _WIN32
+    // Caso seja compilado no Windows
+    #include <windows.h>
+#elif defined(__unix__)
+    // Caso sejacompilado pra Mac/Linux
+    #include <stdlib.h>
+#endif
 
 #define LENGTH 999 // Tamanho limite da mensagem a ser manipulada
                    //*Cada linha deve ter no máximo 1 décimo desse valor
+
+int main();
+
+// =============================================================================================
+void pause()
+{
+    printf("\nClique ENTER para continuar...");
+    getchar();getchar(); // Gambiarra :)
+    main();
+}
 
 //===============================================================================================================================
 /**
@@ -36,6 +53,29 @@ unsigned long long mdc(unsigned long long a, unsigned long long b) {
 }
 
 //===============================================================================================================================
+int isPrime(int numero)
+{
+    int i; //divisor
+
+    for(i = 2; i * i <= numero; i++){
+
+        if ((numero % i) == 0) return 0; //Se for verdade nao eh primo
+            
+    }
+    return 1; // passou por todos os testes e nao deu retorno, logo eh primo
+}
+//===============================================================================================================================
+void limparTela()
+{
+    // Limpa a tela do terminal
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+//===============================================================================================================================
 /** Função que realiza a operação de exponenciação modular.
  * A operação de exponenciação modular é uma operação matemática que calcula (base^exponent) % modulus.
  * É frequentemente usada em algoritmos de criptografia.
@@ -45,6 +85,7 @@ unsigned long long mdc(unsigned long long a, unsigned long long b) {
  * @param m É o número no qual o resultado da operação da exponenciação será reduzido.
  * @return O resultado da operação (base^exponent) % modulus. 
  */
+
 unsigned long long modPow(unsigned long long b, unsigned long long e, unsigned long long m) {
     unsigned long long result = 1; // A função começa inicializando um resultado como 1.
     b = b % m; //então reduz a base usando o operador de módulo.
@@ -88,15 +129,24 @@ unsigned long long generateD(unsigned long long a, unsigned long long m) {
 void generateKeys() {
     FILE *file; // Ponteiro para direionar à arquivos
     unsigned long long p, q, n, phi, e, d; // Variáveis necessária
-
-    //! Só funciona em Unix
-    system("clear"); // Limpa a tela 
-    // TODO: Adicionar um altenativa para Windows
-
-    printf("Digite um número primos: ");
+    limparTela(); // Limpa a tela do termin
+    printf("Digite um número primo: ");
     scanf("%llu", &p); // Solicita que o usuário digite um número primo para p
-    printf("Digite outro número primos: ");
+    while (!isPrime(p)){
+        limparTela();
+        printf("Este número é primo, digite outro: ");
+        scanf("%llu", &p); // Solicita que o usuário digite um número primo para p
+    }
+    
+    limparTela();
+    printf("Digite outro número primo: ");
     scanf("%llu", &q); // Solicita que o usuário digite um número primo para q
+    while (!isPrime(q)){
+        limparTela();
+        printf("Este número é primo, digite outro: ");
+        scanf("%llu", &q); // Solicita que o usuário digite um número primo para q
+    }
+    
     // TODO: Verificar se os números digitados são primos
 
     n = p * q; // n é usado em ambas as chaves
@@ -115,6 +165,7 @@ void generateKeys() {
     fclose(file); // Fecha o arquivo
 
     printf("\nChaves geradas com sucesso.\n");
+    pause();
 }
 
 //===============================================================================================================================
@@ -163,6 +214,7 @@ void encrypt()
     fclose(file); // Fecha o arquivo
 
     printf("\nMensagem criptografada com sucesso!\n");
+    pause();
 }
 
 //===============================================================================================================================
@@ -205,6 +257,7 @@ void decrypt() {
     fclose(file); // Fecha o arquivo
 
     printf("\nMensagem descriptografada com sucesso!\n");
+    pause();
 }
 
 //===============================================================================================================================
@@ -212,10 +265,14 @@ void decrypt() {
  * Primeira função a ser executada ao iniciar o programa
  */
 int main() {
+    // Para padronizar a cadeia de caracteres  utilizada
+    #ifdef _WIN32
+        SetConsoleOutputCP(CP_UTF8);
+    #else
+        setlocale(LC_ALL, "Portuguese");
+    #endif
 
-    //! Só funciona em Unix
-    system("clear"); // Limpa a tela 
-    // TODO: Adicionar um altenativa para Windows
+    limparTela();
     
     int option; // Armazena a escolha do usuário
     printf("RSA\n\n1. Gerar chaves\n2. Criptografar\n3. Descriptografar\n4. Encerrar o programa\n");
