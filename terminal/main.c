@@ -8,7 +8,7 @@
  * //TODO: Adicionar a verificação do sistema para usar a biblioteca <windows.h>
  * TODO: Adicionar o suporte a acentuação //! De boa por enquanto
  * TODO: Manter o usuário no programa (ADICIONAR FUNÇÃO)
- * TODO: Adicionar as opções "Sobre" e "Creditos"
+ * TODO: Adicionar as opções "Sobre" e "Créditos"
 */
 
 // Bibliotecas necessárias
@@ -19,7 +19,7 @@
     // Caso seja compilado no Windows
     #include <windows.h>
 #elif defined(__unix__)
-    // Caso sejacompilado pra Mac/Linux
+    // Caso seja compilado pra Mac/Linux
     #include <stdlib.h>
 #endif
 
@@ -59,10 +59,10 @@ int isPrime(int numero)
 
     for(i = 2; i * i <= numero; i++){
 
-        if ((numero % i) == 0) return 0; //Se for verdade nao eh primo
+        if ((numero % i) == 0) return 0; //Se for verdade nao é primo
             
     }
-    return 1; // passou por todos os testes e nao deu retorno, logo eh primo
+    return 1; // passou por todos os testes e não deu retorno, logo é primo
 }
 //===============================================================================================================================
 void limparTela()
@@ -127,14 +127,14 @@ unsigned long long generateD(unsigned long long a, unsigned long long m) {
  * Gera um dois arquivos contendo as chaves
  */
 void generateKeys() {
-    FILE *file; // Ponteiro para direionar à arquivos
+    FILE *file; // Ponteiro para direcionar à arquivos
     unsigned long long p, q, n, phi, e, d; // Variáveis necessária
-    limparTela(); // Limpa a tela do termin
+    limparTela(); // Limpa a tela do terminal
     printf("Digite um número primo: ");
     scanf("%llu", &p); // Solicita que o usuário digite um número primo para p
     while (!isPrime(p)){
         limparTela();
-        printf("Este número é primo, digite outro: ");
+        printf("Este número não é primo, digite outro: ");
         scanf("%llu", &p); // Solicita que o usuário digite um número primo para p
     }
     
@@ -143,7 +143,7 @@ void generateKeys() {
     scanf("%llu", &q); // Solicita que o usuário digite um número primo para q
     while (!isPrime(q)){
         limparTela();
-        printf("Este número é primo, digite outro: ");
+        printf("Este número não é primo, digite outro: ");
         scanf("%llu", &q); // Solicita que o usuário digite um número primo para q
     }
     
@@ -175,13 +175,13 @@ void generateKeys() {
  */
 void encrypt()
 {
-    FILE *file; // Ponteiro para direionar à arquivos
+    FILE *file; // Ponteiro para direcionar à arquivos
     char message[LENGTH]; // String em que será armazenada a mensagem
     strcpy(message, ""); // Inicializa a string como vazia
-    char line[LENGTH / 10]; // String auxiliar para a leirtura
-    unsigned long long code[LENGTH]; // Array em que seram armazenados os caracteres criptografados
+    char line[LENGTH / 10]; // String auxiliar para a leitura
+    unsigned long long code[LENGTH]; // Array em que serão armazenados os caracteres criptografados
     char archive[30]; // Usada para armazenar o nome do arquivo a ser tratado
-    unsigned long long e, n; // Amazenará os valores da chave pública
+    unsigned long long e, n; // Armazenará os valores da chave pública
 
     // Lê a chave pública do arquivo
     //! Caso o arquivo não exista, resultará em erro
@@ -194,7 +194,7 @@ void encrypt()
     scanf("%s", archive); // Solicita o nome do arquivo a ser criptografado
 
     // Lê o conteúdo do arquivo e o armazena na string message
-    //* Quando o aqruivo termina com uma quebra de linha, ele lê a última linha duas vezes
+    //* Quando o arquivo termina com uma quebra de linha, ele lê a última linha duas vezes
     //! Caso o arquivo não exista, resultará em erro
     // TODO: Tratar esse erro
     file = fopen(archive, "r"); // Abre o arquivo no modo leitura
@@ -209,7 +209,7 @@ void encrypt()
     for (int i = 0; i < strlen(message); i++) { // Inicia um loop que passa por todos os caracteres
         code[i] = modPow((int)message[i], e, n); // Criptografa o caractere
         //* Caracteres acentuados são convertidos em um inteiro fora da tabela ASCII
-        fprintf(file, "%llu ", code[i]); // Escreve o caracter criptografado no arquivo
+        fprintf(file, "%llu ", code[i]); // Escreve o caractere criptografado no arquivo
     }
     fclose(file); // Fecha o arquivo
 
@@ -223,10 +223,10 @@ void encrypt()
  * - Converte os números para caracteres
  */
 void decrypt() {
-    FILE *file; // Ponteiro para direionar à arquivos
-    unsigned long long code[LENGTH]; // Array em que seram armazenados os caracteres criptografados e descriptografados
+    FILE *file; // Ponteiro para direcionar à arquivos
+    unsigned long long code[LENGTH]; // Array em que serão armazenados os caracteres criptografados e descriptografados
     char archive[30]; // Usada para armazenar o nome do arquivo a ser tratado
-    unsigned long long d, n; // Amazenará os valores da chave da
+    unsigned long long d, n; // Armazenará os valores da chave da
 
     // Lê a chave privada do arquivo
     //! Caso o arquivo não exista, resultará em erro
