@@ -1,6 +1,7 @@
 {
+    "C_Cpp.errorSquiggles": "enabled",
     "files.associations": {
-        "gmp.h": "c"
+        "gtk.h": "c"
     },
     "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

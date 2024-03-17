@@ -4,18 +4,15 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/include/x86_64-linux-gnu"
+                "/usr/include/gtk-4.0",
+                "/usr/include/glib-2.0",
+                "/usr/include/**",
+                "/usr/lib/**"
             ],
             "defines": [],
-            "cStandard": "c11",
-            "cppStandard": "c++98",
-            "intelliSenseMode": "linux-gcc-x64",
-            "compilerPath": "/usr/bin/gcc-11",
-            "browse": {
-                "path": [
-                    "/usr/include"
-                ]
-            }
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
         }
     ],
     "version": 4
