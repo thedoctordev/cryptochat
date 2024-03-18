@@ -6,19 +6,6 @@
 unsigned long long p, q;
 char archive[30]; // Usada para armazenar o nome do arquivo a ser tratado
 
-static void print_hello(GtkWidget *widget, gpointer data)
-{
-	GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(data));
-	gtk_entry_buffer_insert_text(buffer, -1, "Hello World!", -1);
-}
-
-static void print_msg(GtkWidget *widget, gpointer data)
-{
-	GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(data));
-	const char *text = gtk_entry_buffer_get_text(buffer);
-	g_print("Texto digitado: %s\n", text);
-}
-
 //===============================================================================================================================
 float raizquadrada(float num) {
     // Algoritmo de Newton-Raphson, método da aproximação quadrática
@@ -240,7 +227,7 @@ void decrypt(GtkWidget *widget, gpointer data) {
     gtk_window_destroy(data);
 }
 
-static void generate_keys_window(GtkWidget *widget, gpointer app)
+static void generate_keys_window(GtkWidget *widget, gpointer data)
 {
 	/* Construct a GtkBuilder instance and load our UI description */
 	GtkBuilder *builder = gtk_builder_new();
@@ -248,7 +235,7 @@ static void generate_keys_window(GtkWidget *widget, gpointer app)
 
 	/* Connect signal handlers to the constructed widgets. */
 	GObject *window = gtk_builder_get_object(builder, "window");
-	gtk_window_set_application(GTK_WINDOW(window), app);
+	gtk_window_set_application(GTK_WINDOW(window), data);
 
 	GObject *entry_p = gtk_builder_get_object(builder, "entry_p");
 	g_signal_connect(entry_p, "changed", G_CALLBACK(define_p), entry_p);
@@ -261,17 +248,14 @@ static void generate_keys_window(GtkWidget *widget, gpointer app)
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
-	/* We do not need the builder any more */
 	g_object_unref(builder);
 }
 
 static void encrypt_window(GtkWidget *widget, gpointer app)
 {
-	/* Construct a GtkBuilder instance and load our UI description */
 	GtkBuilder *builder = gtk_builder_new();
 	gtk_builder_add_from_file(builder, "encrypt.ui", NULL);
 
-	/* Connect signal handlers to the constructed widgets. */
 	GObject *window = gtk_builder_get_object(builder, "window");
 	gtk_window_set_application(GTK_WINDOW(window), app);
 
@@ -283,17 +267,14 @@ static void encrypt_window(GtkWidget *widget, gpointer app)
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
-	/* We do not need the builder any more */
 	g_object_unref(builder);
 }
 
 static void decrypt_window(GtkWidget *widget, gpointer app)
 {
-	/* Construct a GtkBuilder instance and load our UI description */
 	GtkBuilder *builder = gtk_builder_new();
 	gtk_builder_add_from_file(builder, "decrypt.ui", NULL);
 
-	/* Connect signal handlers to the constructed widgets. */
 	GObject *window = gtk_builder_get_object(builder, "window");
 	gtk_window_set_application(GTK_WINDOW(window), app);
 
@@ -305,31 +286,17 @@ static void decrypt_window(GtkWidget *widget, gpointer app)
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
-	/* We do not need the builder any more */
 	g_object_unref(builder);
 }
 
 static void
 activate(GtkApplication *app, gpointer user_data)
 {
-	/* Construct a GtkBuilder instance and load our UI description */
 	GtkBuilder *builder = gtk_builder_new();
 	gtk_builder_add_from_file(builder, "main.ui", NULL);
 
-	/* Connect signal handlers to the constructed widgets. */
 	GObject *window = gtk_builder_get_object(builder, "window");
 	gtk_window_set_application(GTK_WINDOW(window), app);
-
-    GtkWidget *image = GTK_WIDGET(gtk_builder_get_object(builder, "image"));
-
-    // Carregando a imagem do arquivo
-    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file("icons/message-text-lock-outline.svg", NULL);
-    if (pixbuf) {
-        gtk_image_set_from_pixbuf(GTK_IMAGE(image), pixbuf);
-        g_object_unref(pixbuf); // Liberando a memória
-    } else {
-        g_printerr("Erro ao carregar a imagem\n");
-    }
 
 	GObject *button_1 = gtk_builder_get_object(builder, "button_1");
 	g_signal_connect(button_1, "clicked", G_CALLBACK(generate_keys_window), app);
@@ -342,7 +309,6 @@ activate(GtkApplication *app, gpointer user_data)
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
-	/* We do not need the builder any more */
 	g_object_unref(builder);
 }
 
@@ -368,7 +334,7 @@ cryptochat_application_about_action(GSimpleAction *action,
 	gtk_show_about_dialog(window,
 						  "program-name", "Cryptochat",
 						  "authors", authors,
-						  "version", "1.0.0",
+						  "version", "0.0.1",
 						  "copyright", "© 2024 José Cícero",
 						  NULL);
 }
