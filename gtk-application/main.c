@@ -20,16 +20,28 @@ static void print_msg(GtkWidget *widget, gpointer data)
 }
 
 //===============================================================================================================================
-int isPrime(int numero)
-{
-    int i; //divisor
+float raizquadrada(float num) {
+    // Algoritmo de Newton-Raphson, método da aproximação quadrática
+    float x = num;
+    float y = 1;
+    float epsilon = 0.000001; // precisão desejada
 
-    for(i = 2; i * i <= numero; i++){
-
-        if ((numero % i) == 0) return 0; //Se for verdade nao é primo
-            
+    while (x - y > epsilon) {
+        x = (x + y) / 2;
+        y = num / x;
     }
-    return 1; // passou por todos os testes e não deu retorno, logo é primo
+    return x;
+}
+
+int isPrime(float numero) {
+    int i; // divisor
+
+    for (i = 2; i <= raizquadrada(numero); i++) {
+        if ((int)numero % i == 0) {
+            return 0; // Se for divisível por algum número, não é primo
+        }
+    }
+    return 1; // Se não encontrou nenhum divisor, é primo
 }
 
 static void define_p(GtkWidget *widget, gpointer data)
