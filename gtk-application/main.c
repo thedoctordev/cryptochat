@@ -237,14 +237,48 @@ static void generate_keys_window(GtkWidget *widget, gpointer data)
 	GObject *window = gtk_builder_get_object(builder, "window");
 	gtk_window_set_application(GTK_WINDOW(window), data);
 
+	GObject *label_1 = gtk_builder_get_object(builder, "label_1");
+    g_object_set ( label_1,
+               "margin-start",  30,
+               "margin-top",    30,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
+
 	GObject *entry_p = gtk_builder_get_object(builder, "entry_p");
 	g_signal_connect(entry_p, "changed", G_CALLBACK(define_p), entry_p);
+    g_object_set ( entry_p,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 10,
+               NULL );
+
+	GObject *label_2 = gtk_builder_get_object(builder, "label_2");
+    g_object_set ( label_2,
+               "margin-start",  30,
+               "margin-top",    10,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
 
 	GObject *entry_q = gtk_builder_get_object(builder, "entry_q");
 	g_signal_connect(entry_q, "changed", G_CALLBACK(define_q), entry_q);
+    g_object_set ( entry_q,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 10,
+               NULL );
 
 	GObject *button = gtk_builder_get_object(builder, "button");
 	g_signal_connect(button, "clicked", G_CALLBACK(generateKeys), window);
+    g_object_set ( button,
+               "margin-start",  30,
+               "margin-top",    10,
+               "margin-end",    30,
+               "margin-bottom", 30,
+               NULL );
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
@@ -259,11 +293,31 @@ static void encrypt_window(GtkWidget *widget, gpointer app)
 	GObject *window = gtk_builder_get_object(builder, "window");
 	gtk_window_set_application(GTK_WINDOW(window), app);
 
+    GObject *label = gtk_builder_get_object(builder, "label");
+    g_object_set ( label,
+               "margin-start",  30,
+               "margin-top",    30,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
+
 	GObject *entry = gtk_builder_get_object(builder, "entry");
 	g_signal_connect(entry, "changed", G_CALLBACK(define_archive), entry);
+    g_object_set ( entry,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
 
 	GObject *button = gtk_builder_get_object(builder, "button");
 	g_signal_connect(button, "clicked", G_CALLBACK(encrypt), window);
+    g_object_set ( button,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 30,
+               NULL );
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
@@ -278,11 +332,31 @@ static void decrypt_window(GtkWidget *widget, gpointer app)
 	GObject *window = gtk_builder_get_object(builder, "window");
 	gtk_window_set_application(GTK_WINDOW(window), app);
 
+    GObject *label = gtk_builder_get_object(builder, "label");
+    g_object_set ( label,
+               "margin-start",  30,
+               "margin-top",    30,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
+
 	GObject *entry = gtk_builder_get_object(builder, "entry");
 	g_signal_connect(entry, "changed", G_CALLBACK(define_archive), entry);
+    g_object_set ( entry,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
 
 	GObject *button = gtk_builder_get_object(builder, "button");
 	g_signal_connect(button, "clicked", G_CALLBACK(decrypt), window);
+    g_object_set ( button,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 30,
+               NULL );
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
@@ -298,14 +372,41 @@ activate(GtkApplication *app, gpointer user_data)
 	GObject *window = gtk_builder_get_object(builder, "window");
 	gtk_window_set_application(GTK_WINDOW(window), app);
 
+    GObject *label = gtk_builder_get_object(builder, "label");
+    g_object_set ( label,
+               "margin-start",  30,
+               "margin-top",    30,
+               "margin-end",    30,
+               "margin-bottom", 10,
+               NULL );
+
 	GObject *button_1 = gtk_builder_get_object(builder, "button_1");
 	g_signal_connect(button_1, "clicked", G_CALLBACK(generate_keys_window), app);
+    g_object_set ( button_1,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
 
 	GObject *button_2 = gtk_builder_get_object(builder, "button_2");
 	g_signal_connect(button_2, "clicked", G_CALLBACK(encrypt_window), app);
+    g_object_set ( button_2,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 5,
+               NULL );
 
 	GObject *button_3 = gtk_builder_get_object(builder, "button_3");
 	g_signal_connect(button_3, "clicked", G_CALLBACK(decrypt_window), app);
+    g_object_set ( button_3,
+               "margin-start",  30,
+               "margin-top",    5,
+               "margin-end",    30,
+               "margin-bottom", 30,
+               NULL );
+
 
 	gtk_widget_set_visible(GTK_WIDGET(window), TRUE);
 
